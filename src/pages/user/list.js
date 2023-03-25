@@ -1,15 +1,25 @@
 import { useState } from "react";
-import { Button, Col, FlexboxGrid, List, Panel, Row } from "rsuite";
+import { Button, Col, FlexboxGrid, Input, List, Panel, Row } from "rsuite";
 
-const DashboardLists = ({ data: initData, useData }) => {
+const DashboardLists = ({ data: initData, setData }) => {
+  const [strSearch, setStrSearch] = useState("");
 
   const handleSort = () => {
-    useData(
-      [...initData].sort((a, b) => (a.name > b.name ? 1 : -1))
-    );
+    try{
+      setData([...initData].sort());
+    } catch (e) {
+      console.log(e);
+    }
   };
 
-  const handleSearch = (nameInString) => {};
+  const handleSearch = (nameInString) => {
+    console.log(nameInString);
+      const result = [...initData].find((element) => element === nameInString);
+      if(result) {
+        // setData(result);
+        console.log(someString, "handleSearch");
+      }
+  };
 
   return (
     <>
@@ -23,11 +33,17 @@ const DashboardLists = ({ data: initData, useData }) => {
         </List>
       </Panel>
 
+      <Input placeholder="Search Input" />
       <FlexboxGrid justify="center">
         <Button appearance="primary" type="submit" onClick={handleSort}>
           Sort
         </Button>
-        <Button appearance="primary" color="violet" type="submit">
+        <Button
+          appearance="primary"
+          color="violet"
+          type="submit"
+          onClick={handleSearch(e)}
+        >
           Find
         </Button>
       </FlexboxGrid>

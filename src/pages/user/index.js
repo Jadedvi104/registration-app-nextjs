@@ -16,7 +16,7 @@ import DashboardLists from "./list";
 
 const Dashboard = () => {
 
-  const [data, useData] = useState([
+  const [data, setData] = useState([
       "Leon Kennedy",
       "Ada Wong",
       "Ashley Graham",
@@ -49,14 +49,14 @@ const Dashboard = () => {
             <FlexboxGrid justify="center">
               <DashboardForm  
               data={data}
-              useData={useData} 
+              setData={setData} 
               />
             </FlexboxGrid>
           </Content>
           <Footer>
             <DashboardLists
             data={data}
-            useData={useData}
+            setData={setData}
             />
           </Footer>
         </Container>
