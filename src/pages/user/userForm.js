@@ -1,3 +1,4 @@
+import { useDataContext } from "@/components/context";
 import { data } from "autoprefixer";
 import { forwardRef, useRef, useState } from "react";
 import {
@@ -30,7 +31,8 @@ const TextField = forwardRef((props, ref) => {
   );
 });
 
-const DashboardForm = ({data, useData}) => {
+const DashboardForm = () => {
+  const { data, dataAction } = useDataContext();
 
   const formRef = useRef();
   const [formError, setFormError] = useState({});
@@ -38,6 +40,7 @@ const DashboardForm = ({data, useData}) => {
     firstName: "",
     lastName: "",
     telNumber: "",
+    order: data.length + 1,
   });
 
   const handleSubmit = () => {
@@ -45,11 +48,17 @@ const DashboardForm = ({data, useData}) => {
       console.error("Form Error");
       return;
     }
-    console.log(formValue, "Form Value");
-    let newElm = formValue.firstName + " " + formValue.lastName;
     //prevent duplicate value
-    if(!data.includes(newElm)) {
-      useData(prevStates => [...prevStates, newElm]);
+    if (
+      !data.some(
+        (e) =>
+          e.firstName === formValue.firstName &&
+          e.lastName === formValue.lastName
+      )
+    ) {
+      dataAction.setData((prevStates) => [...prevStates, formValue]);
+    } else {
+      console.error("Duplicate")
     }
   };
 
